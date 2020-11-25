@@ -3,3 +3,5 @@
 ## Modify Startup.cs db credentials.
 
 ## Don't forget to add dependency injections inside Startup.cs aswell.
+
+## Name your database exactly as folows: it_projektas.
