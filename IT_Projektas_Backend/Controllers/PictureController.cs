@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IT_Projektas_Backend.Models;
 using IT_Projektas_Backend.RequestModels.PictureRequestModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,6 @@ namespace IT_Projektas_Backend.Controllers
     {
         private readonly it_projektasContext _context;
         private readonly IPictureService _pictureService;
-
         public PictureController(it_projektasContext context, IPictureService pictureService)
         {
             _context = context;
@@ -47,8 +47,10 @@ namespace IT_Projektas_Backend.Controllers
             }
             int userId = int.Parse(request.UserId);
             var profilioNuotrauka = await _context.ProfilioNuotraukos.Where(entity => entity.FkProfiliaiid == userId).FirstOrDefaultAsync();
+            var filePath = profilioNuotrauka.Kelias;
             _context.ProfilioNuotraukos.Remove(profilioNuotrauka);
             await _context.SaveChangesAsync();
+            System.IO.File.Delete(filePath);
 
             return Ok();
         }
