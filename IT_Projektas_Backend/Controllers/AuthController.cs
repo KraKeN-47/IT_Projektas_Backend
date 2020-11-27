@@ -25,7 +25,8 @@ namespace IT_Projektas_Backend.Controllers
         public AuthController(it_projektasContext context, IAuthService authService)
         {
             _context = context;
-            _authService = authService;
+            _authService = authService; 
+            //noriu mirt
         }
 
         [HttpPost("api/[controller]/login")]
