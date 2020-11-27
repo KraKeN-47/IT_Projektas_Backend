@@ -28,6 +28,12 @@ namespace IT_Projektas_Backend.Controllers
             _authService = authService;
         }
 
+        [HttpPost("api/[controller]/test")]
+        public async Task<IActionResult> Test(Gyvunai request)
+        {
+            return Ok("ok");
+        }
+
         [HttpPost("api/[controller]/login")]
         public async Task<IActionResult> Login(AuthLoginRequest request)
         {
