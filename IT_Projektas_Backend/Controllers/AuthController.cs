@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using IT_Projektas_Backend.Responses;
 using IT_Projektas_Backend.RequestModels;
 using System.Net;
+using IT_Projektas_Backend.Services.ClientService;
 
 namespace IT_Projektas_Backend.Controllers
 {
@@ -97,6 +98,27 @@ namespace IT_Projektas_Backend.Controllers
             var token = await _authService.TokenGenerator(user, tokenHandler);
 
             return Ok(new AuthRegisterResponse { ID = user.Id, Name = user.Vardas, Token = tokenHandler.WriteToken(token) });
+        }
+        [HttpDelete("api/[controller]/deleteUser/{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            if (_authService.UserExists(id).Result)
+            {
+                _authService.RemoveUser(id);
+                return Ok();
+            }
+            else
+                return BadRequest("Toks vartotojas neegzistuoja");
+        }
+        [HttpPut("api/[controller]/updateUser/{id}")]
+        public async Task<IActionResult> UpdateUser([FromBody] AuthRegisterUserRequest req, int id)
+        {
+            if (_authService.UserExists(id).Result)
+            {
+                var obj = await _authService.UpdateUser(req, id);
+                return Ok(obj);
+            }
+            return BadRequest("Toks vartotojas neegzistuoja");
         }
     }
 }

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using IT_Projektas_Backend.Controllers;
 using IT_Projektas_Backend.Models;
 using IT_Projektas_Backend.RequestModels.PictureRequestModels;
+using IT_Projektas_Backend.Services.AnimalService;
 using IT_Projektas_Backend.Services.AuthService;
+using IT_Projektas_Backend.Services.ClientService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,11 +41,17 @@ namespace IT_Projektas_Backend
                     builder.WithOrigins("http://localhost:3000")
                         .AllowAnyMethod().AllowAnyHeader()
                     ));
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
             // ----------------------------------
             // Add dependency injections
             // ----------------------------------
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IPetService, PetService>();
             // ----------------------------------
             services.AddSwaggerGen(x => { x.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Animal Hotel WEB-API", Version = "v1" }); });
         }

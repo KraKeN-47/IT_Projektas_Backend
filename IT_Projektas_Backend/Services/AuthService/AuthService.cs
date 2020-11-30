@@ -2,6 +2,7 @@
 using IT_Projektas_Backend.RequestModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -154,6 +155,41 @@ namespace IT_Projektas_Backend.Services.AuthService
             return level;
         }
 
+        public async Task<bool> UserExists(int id)
+        {
+            Klientai kl = await _context.Klientai.Where(x => x.IdKlientai == id).FirstOrDefaultAsync();
+            return kl != null;
+        }
 
+        public void RemoveUser(int id)
+        {
+            Klientai user = _context.Klientai.Where(x => x.IdKlientai == id).FirstOrDefault();
+            Profiliai profiliai = _context.Klientai.Where(x => x.IdKlientai == id).Select(x => x.FkProfiliai).FirstOrDefault();
+            _context.Klientai.Remove(user);
+            _context.Profiliai.Remove(profiliai);
+            _context.SaveChanges();
+        }
+
+        public async Task<Profiliai> UpdateUser(AuthRegisterUserRequest request, int id)
+        {
+            Profiliai user = await _context.Klientai.Where(x => x.IdKlientai == id).Select(x => x.FkProfiliai).FirstOrDefaultAsync();
+            if (request.Adresas != null)
+                user.Adresas = request.Adresas;
+            if (request.AsmensKodas != null)
+                user.AsmensKodas = request.AsmensKodas;
+            if (request.Pastas != null)
+                user.Pastas = request.Pastas;
+            if (request.Pavarde != null)
+                user.Pavarde = request.Pavarde;
+            if (request.TelefonoNr != null)
+                user.TelefonoNr = request.TelefonoNr;
+            if (request.Username != null)
+                user.Username = request.Username;
+            if (request.Vardas != null)
+                user.Vardas = request.Vardas;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }

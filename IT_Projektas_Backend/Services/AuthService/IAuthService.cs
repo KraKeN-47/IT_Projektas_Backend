@@ -16,6 +16,9 @@ namespace IT_Projektas_Backend.Services.AuthService
         Task<Darbuotojai> BuildRegisterWorkerRequest(AuthRegisterWorkerRequest request);
         Profiliai BuildRegisterWorkerProfileRequest(AuthRegisterWorkerRequest request);
         Profiliai BuildRegisterUserRequest(AuthRegisterUserRequest request);
+        public Task<bool> UserExists(int id);
+        void RemoveUser(int id);
+        Task<Profiliai> UpdateUser(AuthRegisterUserRequest request, int id);
         Task<SecurityToken> TokenGenerator(Profiliai user, JwtSecurityTokenHandler tokenHandler);
         string HashedPassword(string password);
         bool UserExistsEmail(string email);
