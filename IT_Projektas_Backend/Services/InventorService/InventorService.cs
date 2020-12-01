@@ -17,7 +17,7 @@ namespace IT_Projektas_Backend.Services.InventorService
         }
         public async Task<List<InventorResponse>> GetInventor()
         {
-            List<Inventorius> inventor = await _context.Inventorius.Include(x=>x.Id).ToListAsync();
+            List<Inventorius> inventor = await _context.Inventorius.ToListAsync();
             List<InventorResponse> inves = new List<InventorResponse>();
             foreach(Inventorius inv in inventor)
             {

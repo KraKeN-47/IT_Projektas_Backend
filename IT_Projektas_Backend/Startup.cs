@@ -6,6 +6,7 @@ using IT_Projektas_Backend.Controllers;
 using IT_Projektas_Backend.Models;
 using IT_Projektas_Backend.RequestModels.PictureRequestModels;
 using IT_Projektas_Backend.Services.AuthService;
+using IT_Projektas_Backend.Services.InventorService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,6 +45,7 @@ namespace IT_Projektas_Backend
             // ----------------------------------
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IInventorService, InventorService>();
             // ----------------------------------
             services.AddSwaggerGen(x => { x.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Animal Hotel WEB-API", Version = "v1" }); });
         }
