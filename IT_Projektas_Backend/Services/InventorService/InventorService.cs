@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IT_Projektas_Backend.RequestModels.InventorRequestModels;
 
 namespace IT_Projektas_Backend.Services.InventorService
 {
@@ -25,13 +26,29 @@ namespace IT_Projektas_Backend.Services.InventorService
                 {
                     Name = inv.Pavadinimas,
                     Amount=inv.Kiekis,
-                    Room=int.Parse(inv.KabinetoNumeris),
+                    Room=inv.KabinetoNumeris,
                     Free=inv.KiekisLaisvu, 
                     GoodFrom= inv.GaliojimoLaikasNuo,
                     GoodUntil=inv.GaliojimoLaikasIki
                 }) ;
             }
             return inves;
+        }
+
+        public Inventorius AddInventor(InventorReq request)
+        {
+            var inventor = new Inventorius
+            {
+                Pavadinimas = request.Name,
+                Kiekis = request.Amount,
+                KabinetoNumeris = request.Room,
+                KiekisLaisvu = request.Free,
+                GaliojimoLaikasNuo = request.GoodFrom,
+                GaliojimoLaikasIki = request.GoodUntil
+            };
+            _context.Inventorius.Add(inventor);
+            _context.SaveChanges();
+            return inventor;
         }
     }
 }
