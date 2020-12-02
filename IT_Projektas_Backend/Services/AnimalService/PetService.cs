@@ -28,7 +28,6 @@ namespace IT_Projektas_Backend.Services.AnimalService
                 Vardas = request.Vardas,
                 Veisle = request.Veisle,
                 FkKlientaiidKlientai = request.FkKlientaiidKlientai,
-                FkDarbuotojaiidDarbuotojai = request.FkDarbuotojaiidDarbuotojai
             };
             _context.Gyvunai.Add(pet);
             _context.SaveChanges();
