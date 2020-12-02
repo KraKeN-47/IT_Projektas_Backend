@@ -14,6 +14,7 @@ namespace IT_Projektas_Backend.Models
         public string AsmensKodas { get; set; }
         public string Pastas { get; set; }
         public string TelefonoNr { get; set; }
+
         public virtual Darbuotojai Darbuotojai { get; set; }
         public virtual Klientai Klientai { get; set; }
         public virtual ProfilioNuotraukos ProfilioNuotraukos { get; set; }

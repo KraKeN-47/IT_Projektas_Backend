@@ -7,7 +7,6 @@ namespace IT_Projektas_Backend.Models
     {
         public Darbuotojai()
         {
-            Gyvunai = new HashSet<Gyvunai>();
             InventoriausRezervacijos = new HashSet<InventoriausRezervacijos>();
             PaslaugosRezervacija = new HashSet<PaslaugosRezervacija>();
         }
@@ -19,7 +18,6 @@ namespace IT_Projektas_Backend.Models
 
         public virtual Profiliai FkProfiliai { get; set; }
         public virtual Paslaugos Paslaugos { get; set; }
-        public virtual ICollection<Gyvunai> Gyvunai { get; set; }
         public virtual ICollection<InventoriausRezervacijos> InventoriausRezervacijos { get; set; }
         public virtual ICollection<PaslaugosRezervacija> PaslaugosRezervacija { get; set; }
     }

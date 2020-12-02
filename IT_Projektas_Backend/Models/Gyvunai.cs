@@ -12,10 +12,8 @@ namespace IT_Projektas_Backend.Models
         public int? Amzius { get; set; }
         public double? Svoris { get; set; }
         public int? Lytis { get; set; }
-        public int FkDarbuotojaiidDarbuotojai { get; set; }
         public int FkKlientaiidKlientai { get; set; }
 
-        public virtual Darbuotojai FkDarbuotojaiidDarbuotojaiNavigation { get; set; }
         public virtual Klientai FkKlientaiidKlientaiNavigation { get; set; }
     }
 }

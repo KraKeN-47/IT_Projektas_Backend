@@ -77,6 +77,7 @@ namespace IT_Projektas_Backend.Models
                     .HasColumnName("regsitracijos_data")
                     .HasMaxLength(255)
                     .HasDefaultValueSql("'NULL'");
+
                 entity.HasOne(d => d.FkKlientaiidKlientaiNavigation)
                     .WithOne(p => p.Ataskaitos)
                     .HasForeignKey<Ataskaitos>(d => d.FkKlientaiidKlientai)
@@ -121,9 +122,6 @@ namespace IT_Projektas_Backend.Models
             {
                 entity.ToTable("gyvunai");
 
-                entity.HasIndex(e => e.FkDarbuotojaiidDarbuotojai)
-                    .HasName("gali_tureti");
-
                 entity.HasIndex(e => e.FkKlientaiidKlientai)
                     .HasName("priklauso_2");
 
@@ -135,10 +133,6 @@ namespace IT_Projektas_Backend.Models
                     .HasColumnName("amzius")
                     .HasColumnType("int(11)")
                     .HasDefaultValueSql("'NULL'");
-
-                entity.Property(e => e.FkDarbuotojaiidDarbuotojai)
-                    .HasColumnName("fk_darbuotojaiid_darbuotojai")
-                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.FkKlientaiidKlientai)
                     .HasColumnName("fk_klientaiid_klientai")
@@ -167,11 +161,6 @@ namespace IT_Projektas_Backend.Models
                     .HasColumnName("veisle")
                     .HasMaxLength(255)
                     .HasDefaultValueSql("'NULL'");
-
-                entity.HasOne(d => d.FkDarbuotojaiidDarbuotojaiNavigation)
-                    .WithMany(p => p.Gyvunai)
-                    .HasForeignKey(d => d.FkDarbuotojaiidDarbuotojai)
-                    .HasConstraintName("gali_tureti");
 
                 entity.HasOne(d => d.FkKlientaiidKlientaiNavigation)
                     .WithMany(p => p.Gyvunai)
