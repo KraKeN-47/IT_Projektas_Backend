@@ -41,6 +41,7 @@ namespace IT_Projektas_Backend
                     builder.WithOrigins("http://localhost:3000")
                         .AllowAnyMethod().AllowAnyHeader()
                     ));
+            // For loop handling
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
