@@ -11,20 +11,15 @@ namespace IT_Projektas_Backend.RequestModels.InventorReservationRequestModels
     {
 
         [Required]
-        public int Id { get; set; }
-        [Required]
         public string Data { get; set; }
         [Required]
         public string LaikasNuo { get; set; }
         [Required]
         public string LaikasIki { get; set; }
         [Required]
-        public int FkDarbuotojaiidDarbuotojai { get; set; }
+        public int ProfilioID { get; set; }
         [Required]
-        public int FkInventoriusid { get; set; }
-        [Required]
-        public virtual Darbuotojai FkDarbuotojaiidDarbuotojaiNavigation { get; set; }
-        [Required]
-        public virtual Inventorius FkInventorius { get; set; }
+        public int Inventoriusid { get; set; }
+        
     }
 }
