@@ -31,7 +31,7 @@ namespace IT_Projektas_Backend.Controllers
             var fileFormat = request.File.ContentType;
             if (request == null || (!fileFormat.Equals("image/jpeg") && !fileFormat.Equals("image/png")))
             {
-                return BadRequest("Neteisingas failo formatas");
+                return BadRequest(new { message = "Neteisingas failo formatas" });
             }
             if (_context.ProfilioNuotraukos.Any(e=> e.FkProfiliaiid == int.Parse(request.UserId)))
             {
@@ -59,6 +59,10 @@ namespace IT_Projektas_Backend.Controllers
             }
             int userId = int.Parse(id);
             var profilioNuotrauka = await _context.ProfilioNuotraukos.Where(entity => entity.FkProfiliaiid == userId).FirstOrDefaultAsync();
+            if (profilioNuotrauka == null)
+            {
+                return BadRequest(new { message = "Profilio nuotraukos nėra" });
+            }
             var filePath = profilioNuotrauka.Kelias;
             _context.ProfilioNuotraukos.Remove(profilioNuotrauka);
             await _context.SaveChangesAsync();

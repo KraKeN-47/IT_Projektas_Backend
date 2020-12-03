@@ -162,15 +162,39 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpGet("api/[controller]/generateNewToken/{id}")]
-        public async Task<IActionResult> ChangePhoneNumber(string id)
+        public async Task<IActionResult> GenerateNewToken(string id)
         {
+            if (id == null)
+            {
+                return BadRequest("Serverio klaida.");
+            }
             var tokenHandler = new JwtSecurityTokenHandler();
-
             var user = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(id));
 
             var newToken = await _authService.TokenGenerator(user, tokenHandler);
 
             return Ok(new { token = tokenHandler.WriteToken(newToken)  });
+        }
+
+        [HttpDelete("api/[controller]/deleteUser/{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(id));
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Profiliai.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message="Paskyra pašalinta sėkmingai." });
         }
 
     }
