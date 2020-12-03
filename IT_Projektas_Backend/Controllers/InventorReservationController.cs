@@ -30,29 +30,35 @@ namespace IT_Projektas_Backend.Controllers
             _inventorReservationService = inventorReservationService;
         }
 
-        [HttpGet]
+        [HttpGet("getAllInventorReservations")]
         public async Task<IActionResult> GetReservations(int profileID)
         {
             ReservationReq req = new ReservationReq { DarbuotojoID = profileID };
             var obj = _inventorReservationService.GetReservations(req);
-
             return Ok(obj);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteReservation (ReservationDeleteReq req)
+        [HttpDelete("CancelReservation")]
+        public async Task<IActionResult> CancelReservation (ReservationDeleteReq req)
         {            
             int id = req.ID;
             var reservation = await _context.InventoriausRezervacijos.Where(x => x.Id == id).FirstOrDefaultAsync();
             _context.InventoriausRezervacijos.Remove(reservation);
+            var tempReserv = _context.Inventorius.Where(x => x.Id == reservation.FkInventoriusid).FirstOrDefault();
+            int amount = (int)(tempReserv.KiekisLaisvu);
+            tempReserv.KiekisLaisvu = amount + 1;
             await _context.SaveChangesAsync();
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("AddReservation")]
         public IActionResult AddReservation ([FromBody]ReservationRequestModel request)
         {
             var obj = _inventorReservationService.AddReservation(request);
+            var tempReserv = _context.Inventorius.Where(x => x.Id == request.Inventoriusid).FirstOrDefault();
+            int amount = (int)(tempReserv.KiekisLaisvu);
+            tempReserv.KiekisLaisvu = amount - 1;
+            _context.SaveChanges();
             return Ok();
         }
 

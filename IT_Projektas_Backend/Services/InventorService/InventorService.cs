@@ -18,12 +18,13 @@ namespace IT_Projektas_Backend.Services.InventorService
         }
         public async Task<List<InventorResponse>> GetInventor()
         {
-            List<Inventorius> inventor = await _context.Inventorius.ToListAsync();
+            List<Inventorius> inventor = await _context.Inventorius.OrderBy(x => x.Pavadinimas).ToListAsync();
             List<InventorResponse> inves = new List<InventorResponse>();
             foreach(Inventorius inv in inventor)
             {
                 inves.Add(new InventorResponse
                 {
+                    ID=inv.Id,
                     Name = inv.Pavadinimas,
                     Amount=inv.Kiekis,
                     Room=inv.KabinetoNumeris,

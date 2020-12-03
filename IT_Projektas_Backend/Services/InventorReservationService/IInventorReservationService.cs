@@ -1,4 +1,5 @@
 ﻿using IT_Projektas_Backend.Models;
+using IT_Projektas_Backend.RequestModels.InventorRequestModels;
 using IT_Projektas_Backend.RequestModels.InventorReservationRequestModels;
 using IT_Projektas_Backend.Responses.InventorReservationResponses;
 using System;
@@ -12,5 +13,6 @@ namespace IT_Projektas_Backend.Services.InventorReservationService
     {
         public Task<List<InventorReservationResponse>> GetReservations(ReservationReq req);
         InventoriausRezervacijos AddReservation(ReservationRequestModel request);
+
     }
 }

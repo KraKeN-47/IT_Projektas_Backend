@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IT_Projektas_Backend.Responses.InventorResponses
+namespace IT_Projektas_Backend.RequestModels.InventorRequestModels
 {
-    public class InventorResponse
+    public class InventorChangeRequest
     {
+        [Required]
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public int Amount { get; set; }
+        [Required]
         public string Room { get; set; }
-        public int? Free { get; set; }
-        public string GoodFrom { get; set; }
-        public string GoodUntil { get; set; }
-
     }
 }

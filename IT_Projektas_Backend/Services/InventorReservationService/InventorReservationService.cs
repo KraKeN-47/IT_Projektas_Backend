@@ -1,4 +1,5 @@
 ﻿using IT_Projektas_Backend.Models;
+using IT_Projektas_Backend.RequestModels.InventorRequestModels;
 using IT_Projektas_Backend.RequestModels.InventorReservationRequestModels;
 using IT_Projektas_Backend.Responses.InventorReservationResponses;
 using IT_Projektas_Backend.Responses.InventorResponses;
@@ -25,23 +26,15 @@ namespace IT_Projektas_Backend.Services.InventorReservationService
             List<InventorReservationResponse> responses = new List<InventorReservationResponse>();
             foreach(var res in reserved)
             {
-                Inventorius temp = _context.Inventorius.Where(x => x.Id == res.FkInventoriusid).FirstOrDefault();
-                InventorResponse tempInventor = new InventorResponse
-                {
-                    Name=temp.Pavadinimas,
-                    Room=temp.KabinetoNumeris,
-                    Amount=temp.Kiekis,
-                    Free=temp.KiekisLaisvu,
-                    GoodFrom=temp.GaliojimoLaikasNuo,
-                    GoodUntil=temp.GaliojimoLaikasIki
-                };
+                string temp = _context.Inventorius.Where(x => x.Id == res.FkInventoriusid).FirstOrDefault().Pavadinimas;
                 responses.Add(new InventorReservationResponse
                 {
+                    ID=res.Id,
                     Data = res.Data,
                     LaikasNuo=res.LaikasNuo,
                     LaikasIki=res.LaikasIki,
                     FkDarbuotojaiidDarbuotojai=res.FkDarbuotojaiidDarbuotojai,
-                    inventorius=tempInventor
+                    inventorius=temp
                 });                
             }
 
@@ -64,5 +57,7 @@ namespace IT_Projektas_Backend.Services.InventorReservationService
             _context.SaveChanges();
             return addThis;
         }
+
+
     }
 }

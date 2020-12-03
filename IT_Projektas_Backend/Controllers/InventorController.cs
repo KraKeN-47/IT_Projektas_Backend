@@ -30,7 +30,7 @@ namespace IT_Projektas_Backend.Controllers
             _inventorService = inventorService;
         }
 
-        [HttpGet]
+        [HttpGet("getAllInventor")]
         public async Task<IActionResult> GetInventor()
         {
            var list = await _inventorService.GetInventor();
@@ -44,7 +44,7 @@ namespace IT_Projektas_Backend.Controllers
             return Ok(obj);
         }
 
-        [HttpDelete]
+        [HttpDelete("DeleteInventor")]
         public async Task<IActionResult> DeleteInventor(InventorDeleteRequest deleteRequest)
         {
             int id = deleteRequest.ID;
@@ -52,6 +52,18 @@ namespace IT_Projektas_Backend.Controllers
             _context.Inventorius.Remove(inventor);
             await _context.SaveChangesAsync();
 
+            return Ok();
+        }
+
+        [HttpPost("ChangeInventor")]
+
+        public async Task<IActionResult> ChangeInventor([FromBody] InventorChangeRequest req)
+        {
+            var temp = await _context.Inventorius.Where(x => x.Id == req.ID).FirstOrDefaultAsync();
+            temp.Pavadinimas = req.Name;
+            temp.KabinetoNumeris = req.Room;
+            temp.Kiekis = req.Amount;
+            await _context.SaveChangesAsync();
             return Ok();
         }
     }
