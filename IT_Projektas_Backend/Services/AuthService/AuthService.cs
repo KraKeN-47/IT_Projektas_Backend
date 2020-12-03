@@ -106,7 +106,9 @@ namespace IT_Projektas_Backend.Services.AuthService
                     new Claim("surname", user.Pavarde),
                     new Claim("username", user.Username),
                     new Claim("email", user.Pastas),
-                    new Claim("level", level)
+                    new Claim("level", level),
+                    new Claim("phoneNumber", user.TelefonoNr),
+                    new Claim("adresas", user.Adresas)
                 }),
                 SigningCredentials =
                     new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
