@@ -37,8 +37,8 @@ namespace IT_Projektas_Backend.Controllers
             return Ok(list);
         }
 
-        [HttpPost]
-        public IActionResult AddInventor(InventorReq request)
+        [HttpPost("AddInventor")]
+        public IActionResult AddInventor([FromBody]InventorReq request)
         {
             Inventorius obj = _inventorService.AddInventor(request);
             return Ok(obj);

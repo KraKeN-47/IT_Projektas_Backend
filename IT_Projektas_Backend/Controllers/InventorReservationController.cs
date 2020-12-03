@@ -50,7 +50,7 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddReservation (ReservationRequestModel request)
+        public IActionResult AddReservation ([FromBody]ReservationRequestModel request)
         {
             var obj = _inventorReservationService.AddReservation(request);
             return Ok();
