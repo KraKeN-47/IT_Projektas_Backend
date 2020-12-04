@@ -30,7 +30,7 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost("api/[controller]/login")]
-        public async Task<IActionResult> Login(AuthLoginRequest request)
+        public async Task<IActionResult> Login([FromBody] AuthLoginRequest request)
         {
             var profilis = _authService.BuildLoginRequest(request);
             var hashedPassword = _authService.HashedPassword(request.Password);
@@ -50,7 +50,7 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost("api/[controller]/registerWorker")]
-        public async Task<IActionResult> RegisterWorker(AuthRegisterWorkerRequest request)
+        public async Task<IActionResult> RegisterWorker([FromBody] AuthRegisterWorkerRequest request)
         {
             var user = _authService.BuildRegisterWorkerProfileRequest(request);
 
@@ -78,7 +78,7 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost("api/[controller]/registerUser")]
-        public async Task<IActionResult> RegisterUser(AuthRegisterUserRequest request)
+        public async Task<IActionResult> RegisterUser([FromBody] AuthRegisterUserRequest request)
         {
             var user = _authService.BuildRegisterUserRequest(request);
             if (_authService.UserExistsEmail(user.Pastas))

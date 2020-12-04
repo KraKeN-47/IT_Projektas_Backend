@@ -12,6 +12,5 @@ namespace IT_Projektas_Backend.Services.ClientService
     public interface IClientService
     {
         Task<List<ClientRetrieveResponse>> GetClients();
-        Task<List<PetRetrieveResponse>> GetPets(int id);
     }
 }

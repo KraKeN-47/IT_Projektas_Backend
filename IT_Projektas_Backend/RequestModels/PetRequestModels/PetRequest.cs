@@ -22,11 +22,9 @@ namespace IT_Projektas_Backend.RequestModels.AnimalRequestModels
         [Required]
         public int? Lytis { get; set; }
         [Required]
-        public int FkDarbuotojaiidDarbuotojai { get; set; }
-        [Required]
         public int FkKlientaiidKlientai { get; set; }
         public PetRequest() { }
-        public PetRequest(string rusis, string vardas, string veisle, int amzius, double svoris, int lytis, int darbuotojai, int klientai)
+        public PetRequest(string rusis, string vardas, string veisle, int amzius, double svoris, int lytis, int klientai)
         {
             Rusis = rusis;
             Vardas = vardas;
@@ -34,7 +32,6 @@ namespace IT_Projektas_Backend.RequestModels.AnimalRequestModels
             Amzius = amzius;
             Svoris = svoris;
             Lytis = lytis;
-            FkDarbuotojaiidDarbuotojai = darbuotojai;
             FkKlientaiidKlientai = klientai;
         }
         public PetRequest(Gyvunai gyv)
@@ -45,7 +42,6 @@ namespace IT_Projektas_Backend.RequestModels.AnimalRequestModels
             Amzius = gyv.Amzius;
             Svoris = gyv.Svoris;
             Lytis = gyv.Lytis;
-            FkDarbuotojaiidDarbuotojai = gyv.FkDarbuotojaiidDarbuotojai;
             FkKlientaiidKlientai = gyv.FkKlientaiidKlientai;
         }
     }

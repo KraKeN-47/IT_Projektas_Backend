@@ -39,7 +39,7 @@ namespace IT_Projektas_Backend.Services.ClientService
             return clientsList;
         }
 
-        public async Task<List<PetRetrieveResponse>> GetPets(int id)
+        private async Task<List<PetRetrieveResponse>> GetPets(int id)
         {
             List<Gyvunai> gyvunai = await _context.Gyvunai.Where(gyv => gyv.FkKlientaiidKlientai == id).ToListAsync();
             List<PetRetrieveResponse> pets = new List<PetRetrieveResponse>();

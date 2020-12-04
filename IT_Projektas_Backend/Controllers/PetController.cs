@@ -14,18 +14,36 @@ namespace IT_Projektas_Backend.Controllers
     [ApiController]
     public class PetController : ControllerBase
     {
-        private readonly IPetService _animalService;
+        private readonly IPetService _petService;
 
         public PetController(IPetService animalService)
         {
-            _animalService = animalService;
+            _petService = animalService;
         }
 
-        [HttpPost]
-        public IActionResult AddAnimal(PetRequest addAnimalRequest)
+        [HttpGet]
+        public async Task<IActionResult> GetPets()
         {
-            var obj = _animalService.AddPet(addAnimalRequest);
+            var obj = await _petService.GetPets();
             return Ok(obj);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserPets(int id)
+        {
+            var list = await _petService.GetUserPets(id);
+            return Ok(list);
+        }
+        [HttpPost]
+        public IActionResult AddPet(PetRequest addAnimalRequest)
+        {
+            var obj = _petService.AddPet(addAnimalRequest);
+            return Ok(obj);
+        }
+        [HttpDelete("{id}")]
+        public IActionResult RemovePet(int id)
+        {
+            _petService.RemovePet(id);
+            return Ok();
         }
     }
 }

@@ -27,11 +27,5 @@ namespace IT_Projektas_Backend.Controllers
             var list = await _clientService.GetClients();
             return Ok(list);
         }
-        [HttpGet("/{id}/pets")]
-        public async Task<IActionResult> GetPets(int id)
-        {
-            var obj = await _clientService.GetPets(id);
-            return Ok(obj);
-        }
     }
 }

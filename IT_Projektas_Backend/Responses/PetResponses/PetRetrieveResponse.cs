@@ -8,6 +8,7 @@ namespace IT_Projektas_Backend.Responses.PetResponses
 {
     public class PetRetrieveResponse
     {
+        public int Id { get; set; }
         public string Rusis { get; set; }
         public string Vardas { get; set; }
         public string Veisle { get; set; }
@@ -16,6 +17,7 @@ namespace IT_Projektas_Backend.Responses.PetResponses
         public int? Lytis { get; set; }
         public PetRetrieveResponse(Gyvunai gyv)
         {
+            Id = gyv.Id;
             Rusis = gyv.Rusis;
             Vardas = gyv.Vardas;
             Veisle = gyv.Veisle;
