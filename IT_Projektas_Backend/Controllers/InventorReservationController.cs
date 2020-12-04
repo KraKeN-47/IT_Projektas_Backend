@@ -30,11 +30,13 @@ namespace IT_Projektas_Backend.Controllers
             _inventorReservationService = inventorReservationService;
         }
 
-        [HttpGet("getAllInventorReservations")]
-        public async Task<IActionResult> GetReservations(int profileID)
+        [HttpGet("getAllInventorReservations/{id}")]
+        public async Task<IActionResult> GetReservations(string id)
         {
+            int profileID = int.Parse(id);
             ReservationReq req = new ReservationReq { DarbuotojoID = profileID };
             var obj = _inventorReservationService.GetReservations(req);
+
             return Ok(obj);
         }
 

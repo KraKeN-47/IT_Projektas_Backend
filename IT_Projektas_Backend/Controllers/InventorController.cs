@@ -44,11 +44,11 @@ namespace IT_Projektas_Backend.Controllers
             return Ok(obj);
         }
 
-        [HttpDelete("DeleteInventor")]
-        public async Task<IActionResult> DeleteInventor(InventorDeleteRequest deleteRequest)
+        [HttpDelete("DeleteInventor/{id}")]
+        public async Task<IActionResult> DeleteInventor(string id)
         {
-            int id = deleteRequest.ID;
-            var inventor = await _context.Inventorius.Where(x => x.Id == id).FirstOrDefaultAsync();
+            int parsedId = int.Parse(id);
+            var inventor = await _context.Inventorius.Where(x => x.Id == parsedId).FirstOrDefaultAsync();
             _context.Inventorius.Remove(inventor);
             await _context.SaveChangesAsync();
 
