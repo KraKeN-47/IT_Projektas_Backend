@@ -49,5 +49,12 @@ namespace IT_Projektas_Backend.Controllers
             PersonalResponse personal = await _reportsService.PersonalReport(profID);
             return Ok(personal);
         }
+
+        [HttpGet("getAllWorkers")]
+        public async Task<IActionResult> GetWorkers()
+        {
+            var list = await _reportsService.GetWorkers();
+            return Ok(list);
+        }
     }
 }

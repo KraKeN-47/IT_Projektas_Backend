@@ -54,5 +54,22 @@ namespace IT_Projektas_Backend.Services.ReportsService
             return response;
         }
 
+        public async Task<List<WorkerResponseForGet>> GetWorkers()
+        {
+            List<Darbuotojai> workers = await _context.Darbuotojai.OrderBy(x => x.Pozicija).ToListAsync();
+            List<WorkerResponseForGet> wrkrs = new List<WorkerResponseForGet>();
+            foreach (var wrkr in workers)
+            {
+                wrkrs.Add(new WorkerResponseForGet
+                {
+                    Pozicija=wrkr.Pozicija,
+                    IsAdmin=(bool)(wrkr.IsAdmin),
+                    IdDarbuotojai=wrkr.IdDarbuotojai,
+                    FkProfiliaiid=wrkr.FkProfiliaiid
+                });
+            }
+            return wrkrs;
+        }
+
     }
 }

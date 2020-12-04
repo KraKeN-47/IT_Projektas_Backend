@@ -11,5 +11,7 @@ namespace IT_Projektas_Backend.Services.ReportsService
 
         Task<List<PositionsResponse>> PositionsReport();
         Task<PersonalResponse> PersonalReport(int profileID);
+
+        Task<List<WorkerResponseForGet>> GetWorkers();
     }
 }
