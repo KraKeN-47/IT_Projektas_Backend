@@ -15,6 +15,7 @@ using IT_Projektas_Backend.Responses;
 using IT_Projektas_Backend.RequestModels;
 using System.Net;
 using IT_Projektas_Backend.RequestModels.AuthRequestModels;
+using IT_Projektas_Backend.Responses.AuthResponses;
 
 namespace IT_Projektas_Backend.Controllers
 {
@@ -120,9 +121,8 @@ namespace IT_Projektas_Backend.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Naujas pašto adresas sėkmingai išsaugotas." });
-
-
         }
+
         [HttpPost("api/[controller]/changeAddress")]
         public async Task<IActionResult> ChangeAddress([FromBody] AuthChangeAddressRequest req)
         {
@@ -197,5 +197,38 @@ namespace IT_Projektas_Backend.Controllers
             return Ok(new { message="Paskyra pašalinta sėkmingai." });
         }
 
+        [HttpGet("api/[controller]/getMyPets/{id}")]
+        public async Task<IActionResult> GetMyPets(string id)
+        {
+            var parsedId = int.Parse(id);
+            if (id == null || parsedId < 0)
+            {
+                return BadRequest();
+            }
+
+            var user = await _context.Klientai.SingleOrDefaultAsync(e => e.FkProfiliaiid == parsedId);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var myPets = await _context.Gyvunai.Where(e => e.FkKlientaiidKlientai == user.IdKlientai).ToListAsync();
+
+            var translatedList = new List<AuthMyPetsResponse>();
+
+            foreach (var item in myPets)
+            {
+                translatedList.Add(new AuthMyPetsResponse { Amzius = item.Amzius,
+                Id = item.Id,
+                Lytis = item.Lytis,
+                Rusis = item.Rusis,
+                Svoris = item.Svoris,
+                Vardas = item.Vardas,
+                Veisle = item.Veisle
+                });
+            }
+
+            return Ok(new { myPets = translatedList });
+        }
     }
 }
