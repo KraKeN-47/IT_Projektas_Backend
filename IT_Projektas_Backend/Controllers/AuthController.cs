@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using IT_Projektas_Backend.Responses;
 using IT_Projektas_Backend.RequestModels;
 using System.Net;
+using IT_Projektas_Backend.Services.ClientService;
 using IT_Projektas_Backend.RequestModels.AuthRequestModels;
 
 namespace IT_Projektas_Backend.Controllers
@@ -30,7 +31,8 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost("api/[controller]/login")]
-        public async Task<IActionResult> Login([FromBody]AuthLoginRequest request)
+        public async Task<IActionResult> Login([FromBody] AuthLoginRequest request)
+
         {
             var profilis = _authService.BuildLoginRequest(request);
             var isUserExists = await _context.Profiliai.AnyAsync(x => x.Pastas.Equals(profilis.Pastas));
@@ -54,7 +56,7 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost("api/[controller]/registerWorker")]
-        public async Task<IActionResult> RegisterWorker([FromBody]AuthRegisterWorkerRequest request)
+        public async Task<IActionResult> RegisterWorker([FromBody] AuthRegisterWorkerRequest request)
         {
             var user = _authService.BuildRegisterWorkerProfileRequest(request);
 
@@ -82,7 +84,7 @@ namespace IT_Projektas_Backend.Controllers
         }
 
         [HttpPost("api/[controller]/registerUser")]
-        public async Task<IActionResult> RegisterUser([FromBody]AuthRegisterUserRequest request)
+        public async Task<IActionResult> RegisterUser([FromBody] AuthRegisterUserRequest request)
         {
             var user = _authService.BuildRegisterUserRequest(request);
             if (_authService.UserExistsEmail(user.Pastas))
@@ -102,6 +104,37 @@ namespace IT_Projektas_Backend.Controllers
             var token = await _authService.TokenGenerator(user, tokenHandler);
 
             return Ok(new AuthRegisterResponse { ID = user.Id, Name = user.Vardas, Token = tokenHandler.WriteToken(token) });
+        }
+        [HttpPut("api/[controller]/updateUser/{id}")]
+        public async Task<IActionResult> UpdateUser([FromBody] AuthRegisterUserRequest req, int id)
+        {
+            if (_authService.UserExists(id).Result)
+            {
+                var obj = await _authService.UpdateUser(req, id);
+                return Ok(obj);
+            }
+            return BadRequest("Toks vartotojas neegzistuoja");
+        }
+        [HttpPut("api/[controller]/updateWorker/{id}")]
+        public async Task<IActionResult> UpdateWorker([FromBody] AuthRegisterWorkerRequest req, int id)
+        {
+            if (_authService.WorkerExists(id).Result)
+            {
+                var obj = await _authService.UpdateWorker(req, id);
+                return Ok(obj);
+            }
+            return BadRequest("Toks vartotojas neegzistuoja");
+        }
+        [HttpDelete("api/[controller]/deleteWorker/{id}")]
+        public IActionResult DeleteWorker(int id)
+        {
+            if (_authService.WorkerExists(id).Result)
+            {
+                _authService.RemoveWorker(id);
+                return Ok();
+            }
+            else
+                return BadRequest("Toks darbuotojas neegzistuoja");
         }
 
         [HttpPost("api/[controller]/changeEmail")]
@@ -196,6 +229,5 @@ namespace IT_Projektas_Backend.Controllers
 
             return Ok(new { message="Paskyra pašalinta sėkmingai." });
         }
-
     }
 }
