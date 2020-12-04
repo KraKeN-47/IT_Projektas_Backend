@@ -1,19 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using IT_Projektas_Backend.Controllers;
 using IT_Projektas_Backend.Models;
 using IT_Projektas_Backend.Services.ServiService;
 using IT_Projektas_Backend.RequestModels.PictureRequestModels;
+using IT_Projektas_Backend.Services.AnimalService;
 using IT_Projektas_Backend.Services.AuthService;
+using IT_Projektas_Backend.Services.ClientService;
+using IT_Projektas_Backend.Services.InventorReservationService;
+using IT_Projektas_Backend.Services.InventorService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -32,6 +39,7 @@ namespace IT_Projektas_Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<it_projektasContext>(x =>
                 x.UseMySql("server=127.0.0.1;port=3306;user=root;password=;database=it_projektas"));
             // <-- Add CORS policy to allow frontend to access the API -->
@@ -40,12 +48,21 @@ namespace IT_Projektas_Backend
                     builder.WithOrigins("http://localhost:3000")
                         .AllowAnyMethod().AllowAnyHeader()
                     ));
+            // For loop handling
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
             // ----------------------------------
             // Add dependency injections
             // ----------------------------------
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<IServicesService, ServicesService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IPetService, PetService>();
+            services.AddScoped<IInventorService, InventorService>();
+            services.AddScoped<IInventorReservationService, InventorReservationService>();
             // ----------------------------------
             services.AddSwaggerGen(x => { x.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Animal Hotel WEB-API", Version = "v1" }); });
         }
@@ -68,6 +85,11 @@ namespace IT_Projektas_Backend
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors("MyPolicy"); // use created cors policy
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "ProfilePictureStorage")),
+                RequestPath = new PathString("/ProfilePictureStorage")
+            });
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
