@@ -35,15 +35,15 @@ namespace IT_Projektas_Backend.Controllers
         {
             int profileID = int.Parse(id);
             ReservationReq req = new ReservationReq { DarbuotojoID = profileID };
-            var obj = _inventorReservationService.GetReservations(req);
+            var obj = await _inventorReservationService.GetReservations(req);
 
             return Ok(obj);
         }
 
-        [HttpDelete("CancelReservation")]
-        public async Task<IActionResult> CancelReservation (ReservationDeleteReq req)
-        {            
-            int id = req.ID;
+        [HttpDelete("CancelReservation/{userId}")]
+        public async Task<IActionResult> CancelReservation (string userId)
+        {
+            int id = int.Parse(userId);
             var reservation = await _context.InventoriausRezervacijos.Where(x => x.Id == id).FirstOrDefaultAsync();
             _context.InventoriausRezervacijos.Remove(reservation);
             var tempReserv = _context.Inventorius.Where(x => x.Id == reservation.FkInventoriusid).FirstOrDefault();

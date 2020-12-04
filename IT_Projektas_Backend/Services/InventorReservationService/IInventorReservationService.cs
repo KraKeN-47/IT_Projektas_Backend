@@ -11,7 +11,7 @@ namespace IT_Projektas_Backend.Services.InventorReservationService
 {
     public interface IInventorReservationService
     {
-        public Task<List<InventorReservationResponse>> GetReservations(ReservationReq req);
+        Task<List<InventorReservationResponse>> GetReservations(ReservationReq req);
         InventoriausRezervacijos AddReservation(ReservationRequestModel request);
 
     }

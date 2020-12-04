@@ -22,8 +22,8 @@ namespace IT_Projektas_Backend.Services.InventorReservationService
         public async Task<List<InventorReservationResponse>> GetReservations(ReservationReq req) 
         {
             int tempID = _context.Darbuotojai.Where(x => x.FkProfiliaiid == req.DarbuotojoID).First().IdDarbuotojai;
-            List<InventoriausRezervacijos> reserved = await _context.InventoriausRezervacijos.Where(x => x.FkDarbuotojaiidDarbuotojai == tempID).ToListAsync();
-            List<InventorReservationResponse> responses = new List<InventorReservationResponse>();
+            var reserved = await _context.InventoriausRezervacijos.Where(x => x.FkDarbuotojaiidDarbuotojai == tempID).ToListAsync();
+            var responses = new List<InventorReservationResponse>();
             foreach(var res in reserved)
             {
                 string temp = _context.Inventorius.Where(x => x.Id == res.FkInventoriusid).FirstOrDefault().Pavadinimas;
