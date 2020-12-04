@@ -105,17 +105,6 @@ namespace IT_Projektas_Backend.Controllers
 
             return Ok(new AuthRegisterResponse { ID = user.Id, Name = user.Vardas, Token = tokenHandler.WriteToken(token) });
         }
-        [HttpDelete("api/[controller]/deleteUser/{id}")]
-        public IActionResult DeleteUser(int id)
-        {
-            if (_authService.UserExists(id).Result)
-            {
-                _authService.RemoveUser(id);
-                return Ok();
-            }
-            else
-                return BadRequest("Toks vartotojas neegzistuoja");
-        }
         [HttpPut("api/[controller]/updateUser/{id}")]
         public async Task<IActionResult> UpdateUser([FromBody] AuthRegisterUserRequest req, int id)
         {
