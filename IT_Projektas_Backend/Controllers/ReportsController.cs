@@ -42,10 +42,10 @@ namespace IT_Projektas_Backend.Controllers
         }
 
 
-        [HttpPost("personalWorkReport")]
-        public async Task<IActionResult> personalWorkReport(string profileID)
+        [HttpPost("personalWorkReport/{id}")]
+        public async Task<IActionResult> personalWorkReport(string id)
         {
-            int profID = int.Parse(profileID);
+            int profID = int.Parse(id);
             PersonalResponse personal = await _reportsService.PersonalReport(profID);
             return Ok(personal);
         }

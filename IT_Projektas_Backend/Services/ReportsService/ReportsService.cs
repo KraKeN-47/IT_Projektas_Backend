@@ -46,8 +46,7 @@ namespace IT_Projektas_Backend.Services.ReportsService
 
         public async Task<PersonalResponse> PersonalReport(int profileID)
         {
-            int tempID = _context.Darbuotojai.Where(x => x.FkProfiliaiid == profileID).First().IdDarbuotojai;
-            List<PaslaugosRezervacija> paslaugos = await _context.PaslaugosRezervacija.Where(x => x.FkDarbuotojaiidDarbuotojai == tempID).ToListAsync();
+            List<PaslaugosRezervacija> paslaugos = await _context.PaslaugosRezervacija.Where(x => x.FkDarbuotojaiidDarbuotojai == profileID).ToListAsync();
             int res = (from x in paslaugos select x.FkKlientaiidKlientai).Distinct().Count();
             PersonalResponse response = new PersonalResponse { AmountOfRezervations=paslaugos.Count(), AmountOfClients=res};
 
