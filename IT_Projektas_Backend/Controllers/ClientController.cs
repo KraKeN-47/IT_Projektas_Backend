@@ -21,10 +21,16 @@ namespace IT_Projektas_Backend.Controllers
         {
             _clientService = service;
         }
-        [HttpGet]
+        [HttpGet("clients")]
         public async Task<IActionResult> GetClients()
         {
             var list = await _clientService.GetClients();
+            return Ok(list);
+        }
+        [HttpGet("workers")]
+        public async Task<IActionResult> GetWorkers()
+        {
+            var list = await _clientService.GetWorkers();
             return Ok(list);
         }
     }

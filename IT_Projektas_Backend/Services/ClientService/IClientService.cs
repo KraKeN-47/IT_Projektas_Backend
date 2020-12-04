@@ -1,5 +1,6 @@
 ﻿using IT_Projektas_Backend.Models;
 using IT_Projektas_Backend.RequestModels.AnimalRequestModels;
+using IT_Projektas_Backend.Responses.ClientResponses;
 using IT_Projektas_Backend.Responses.ClientRsponses;
 using IT_Projektas_Backend.Responses.PetResponses;
 using System;
@@ -12,5 +13,6 @@ namespace IT_Projektas_Backend.Services.ClientService
     public interface IClientService
     {
         Task<List<ClientRetrieveResponse>> GetClients();
+        Task<List<WorkerRetrieveResponse>> GetWorkers();
     }
 }

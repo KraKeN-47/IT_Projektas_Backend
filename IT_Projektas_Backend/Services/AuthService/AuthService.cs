@@ -191,5 +191,46 @@ namespace IT_Projektas_Backend.Services.AuthService
             await _context.SaveChangesAsync();
             return user;
         }
+
+        public async Task<bool> WorkerExists(int id)
+        {
+            Darbuotojai worker = await _context.Darbuotojai.Where(x => x.IdDarbuotojai == id).FirstOrDefaultAsync();
+            return worker != null;
+        }
+
+        public async Task<Profiliai> UpdateWorker(AuthRegisterWorkerRequest request, int id)
+        {
+            Profiliai user = await _context.Darbuotojai.Where(x => x.IdDarbuotojai == id).Include(x=>x.FkProfiliai).Select(x=>x.FkProfiliai).FirstOrDefaultAsync();
+            if (request.Adresas != null)
+                user.Adresas = request.Adresas;
+            if (request.AsmensKodas != null)
+                user.AsmensKodas = request.AsmensKodas;
+            if (request.Pastas != null)
+                user.Pastas = request.Pastas;
+            if (request.Pavarde != null)
+                user.Pavarde = request.Pavarde;
+            if (request.TelefonoNr != null)
+                user.TelefonoNr = request.TelefonoNr;
+            if (request.Username != null)
+                user.Username = request.Username;
+            if (request.Vardas != null)
+                user.Vardas = request.Vardas;
+            if (request.Pozicija != null)
+                user.Darbuotojai.Pozicija = request.Pozicija;
+            if (request.IsAdmin != null)
+                user.Darbuotojai.IsAdmin = request.IsAdmin;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public void RemoveWorker(int id)
+        {
+            Darbuotojai user = _context.Darbuotojai.Where(x => x.IdDarbuotojai == id).FirstOrDefault();
+            Profiliai profiliai = _context.Darbuotojai.Where(x => x.IdDarbuotojai == id).Select(x => x.FkProfiliai).FirstOrDefault();
+            _context.Darbuotojai.Remove(user);
+            _context.Profiliai.Remove(profiliai);
+            _context.SaveChanges();
+        }
     }
 }

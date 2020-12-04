@@ -120,5 +120,26 @@ namespace IT_Projektas_Backend.Controllers
             }
             return BadRequest("Toks vartotojas neegzistuoja");
         }
+        [HttpPut("api/[controller]/updateWorker/{id}")]
+        public async Task<IActionResult> UpdateWorker([FromBody] AuthRegisterWorkerRequest req, int id)
+        {
+            if (_authService.WorkerExists(id).Result)
+            {
+                var obj = await _authService.UpdateWorker(req, id);
+                return Ok(obj);
+            }
+            return BadRequest("Toks vartotojas neegzistuoja");
+        }
+        [HttpDelete("api/[controller]/deleteWorker/{id}")]
+        public IActionResult DeleteWorker(int id)
+        {
+            if (_authService.WorkerExists(id).Result)
+            {
+                _authService.RemoveWorker(id);
+                return Ok();
+            }
+            else
+                return BadRequest("Toks darbuotojas neegzistuoja");
+        }
     }
 }
