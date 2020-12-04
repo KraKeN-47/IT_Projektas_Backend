@@ -31,13 +31,13 @@ namespace IT_Projektas_Backend.Services.ServiService
             {
                 servs.Add(new ServicesResponses
                 {
+                    Id=ser.Id,
                     Rizika = ser.Rizika,
                     Pavadinimas = ser.Pavadinimas,
                     Kaina = ser.Kaina,
                     Aprasymas = ser.Aprasymas,
                     Narkoze = ser.Narkoze,
                     Trukme = ser.Trukme,
-                    FkDarbuotojaiidDarbuotojai = ser.FkDarbuotojaiidDarbuotojai
                 });
             }
             return servs;
