@@ -25,7 +25,7 @@ namespace IT_Projektas_Backend.Services.ServiService
         }
         public async Task<List<ServicesResponses>> BuildServicesGetRequest()
         {
-            List<Paslaugos> service = await _context.Paslaugos.ToListAsync();
+            List<Paslaugos> service = await _context.Paslaugos.OrderBy(x => x.Pavadinimas).ToListAsync();
             List<ServicesResponses> servs = new List<ServicesResponses>();
             foreach (Paslaugos ser in service)
             {
