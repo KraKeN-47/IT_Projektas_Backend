@@ -15,6 +15,7 @@ using IT_Projektas_Backend.Responses;
 using IT_Projektas_Backend.RequestModels;
 using System.Net;
 using IT_Projektas_Backend.Services.ClientService;
+using IT_Projektas_Backend.RequestModels.AuthRequestModels;
 
 namespace IT_Projektas_Backend.Controllers
 {
@@ -31,14 +32,19 @@ namespace IT_Projektas_Backend.Controllers
 
         [HttpPost("api/[controller]/login")]
         public async Task<IActionResult> Login([FromBody] AuthLoginRequest request)
+
         {
             var profilis = _authService.BuildLoginRequest(request);
-            var hashedPassword = _authService.HashedPassword(request.Password);
             var isUserExists = await _context.Profiliai.AnyAsync(x => x.Pastas.Equals(profilis.Pastas));
-            var isPasswordExists = await _context.Profiliai.AnyAsync(x => x.Password.Equals(hashedPassword));
-            if (!isUserExists || !isPasswordExists)
+            if (!isUserExists)
             {
                 return NotFound("Paskyra neegzistuoja");
+            }
+            var hashedPassword = _authService.HashedPassword(request.Password);
+            var isPasswordExists = await _context.Profiliai.AnyAsync(x => x.Password.Equals(hashedPassword));
+            if (!isPasswordExists)
+            {
+                return NotFound("Blogas slaptažodis");
             }
             var user = await _context.Profiliai.Where(x => x.Pastas.Equals(profilis.Pastas)).FirstOrDefaultAsync();
             var passwordExists = await _context.Profiliai.Where(x => x.Password.Equals(hashedPassword)).FirstOrDefaultAsync();
@@ -140,6 +146,99 @@ namespace IT_Projektas_Backend.Controllers
             }
             else
                 return BadRequest("Toks darbuotojas neegzistuoja");
+        }
+
+        [HttpPost("api/[controller]/changeEmail")]
+        public async Task<IActionResult> ChangeEmail([FromBody] AuthChangeEmailRequest req)
+        {
+            if (req.email == null || req.userId == null)
+            {
+                return BadRequest();
+            }
+            var record = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(req.userId));
+            if (record == null)
+            {
+                return BadRequest("Klaida, toks profilis neegzistuoja");
+            }
+            record.Pastas = req.email;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Naujas pašto adresas sėkmingai išsaugotas." });
+
+
+        }
+        [HttpPost("api/[controller]/changeAddress")]
+        public async Task<IActionResult> ChangeAddress([FromBody] AuthChangeAddressRequest req)
+        {
+            if (req.address == null || req.userId == null)
+            {
+                return BadRequest();
+            }
+            var record = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(req.userId));
+            if (record == null)
+            {
+                return BadRequest("Klaida, toks profilis neegzistuoja");
+            }
+            record.Adresas = req.address;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Naujas adresas sėkmingai išsaugotas." });
+
+
+        }
+
+        [HttpPost("api/[controller]/changePhoneNumber")]
+        public async Task<IActionResult> ChangePhoneNumber([FromBody] AuthChangePhoneNumberRequest req)
+        {
+            if (req.phoneNumber == null || req.userId == null)
+            {
+                return BadRequest();
+            }
+            var record = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(req.userId));
+            if (record == null)
+            {
+                return BadRequest("Klaida, toks profilis neegzistuoja");
+            }
+            record.TelefonoNr = req.phoneNumber;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message= "Naujas telefono numeris sėkmingai išsaugotas." });
+        }
+
+        [HttpGet("api/[controller]/generateNewToken/{id}")]
+        public async Task<IActionResult> GenerateNewToken(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest("Serverio klaida.");
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var user = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(id));
+
+            var newToken = await _authService.TokenGenerator(user, tokenHandler);
+
+            return Ok(new { token = tokenHandler.WriteToken(newToken)  });
+        }
+
+        [HttpDelete("api/[controller]/deleteUser/{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _context.Profiliai.SingleOrDefaultAsync(e => e.Id == int.Parse(id));
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Profiliai.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message="Paskyra pašalinta sėkmingai." });
         }
     }
 }
