@@ -44,6 +44,7 @@ namespace IT_Projektas_Backend.Services.ServiService
         }
         public Paslaugos BuildServicesAddRequest(ServiAddRequest request)
         {
+            int darbuotojoID = _context.Darbuotojai.Where(x => x.FkProfiliaiid == request.FkDarbuotojaiidDarbuotojai).FirstOrDefault().IdDarbuotojai;
             var service = new Paslaugos
             {
                 Rizika = request.Rizika,
@@ -52,7 +53,7 @@ namespace IT_Projektas_Backend.Services.ServiService
                 Aprasymas = request.Aprasymas,
                 Narkoze = request.Narkoze,
                 Trukme = request.Trukme,
-                FkDarbuotojaiidDarbuotojai = request.FkDarbuotojaiidDarbuotojai
+                FkDarbuotojaiidDarbuotojai = darbuotojoID
             };
             _context.Paslaugos.Add(service);
             _context.SaveChanges();

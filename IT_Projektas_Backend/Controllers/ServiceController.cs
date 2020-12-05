@@ -28,14 +28,14 @@ namespace IT_Projektas_Backend.Controllers
             _context = context;
             _serviService = _serviceService;
         }
-        [HttpPost("Addservice")]
+        [HttpPost("AddService")]
         public async Task<IActionResult> AddService([FromBody] ServiAddRequest request)
         {
             Paslaugos addRequest = _serviService.BuildServicesAddRequest(request);
             return Ok(addRequest);
         }
 
-        [HttpGet("Getservices")]
+        [HttpGet("GetServices")]
         public async Task<IActionResult> GetServices()
         {
             var list = await _serviService.BuildServicesGetRequest();
@@ -50,7 +50,7 @@ namespace IT_Projektas_Backend.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-        [HttpPost("Updateservice")]
+        [HttpPut("UpdateService")]
 
         public async Task<IActionResult> UpdateService([FromBody] ServiUpdateRequest upRequest)
         {
