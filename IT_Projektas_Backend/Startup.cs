@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IT_Projektas_Backend.Controllers;
 using IT_Projektas_Backend.Models;
+using IT_Projektas_Backend.Services.ServiService;
 using IT_Projektas_Backend.RequestModels.PictureRequestModels;
 using IT_Projektas_Backend.Services.AnimalService;
 using IT_Projektas_Backend.Services.AuthService;
@@ -12,6 +13,7 @@ using IT_Projektas_Backend.Services.ClientService;
 using IT_Projektas_Backend.Services.InventorReservationService;
 using IT_Projektas_Backend.Services.InventorService;
 using IT_Projektas_Backend.Services.ReportsService;
+using IT_Projektas_Backend.Services.ServiRegistrationService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -58,6 +60,8 @@ namespace IT_Projektas_Backend
             // ----------------------------------
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IServicesService, ServicesService>();
+            services.AddScoped<IServiRegService, ServiRegService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IInventorService, InventorService>();
