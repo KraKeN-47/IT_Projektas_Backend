@@ -18,8 +18,8 @@ namespace IT_Projektas_Backend.Services.ServiRegistrationService
         }
         public async Task<List<ServicesRegistrationResponses>> BuildServicesGetRegRequest(ServiRegGetRequest req)
         {
-            int fkProfiliaiid = _context.Darbuotojai.Where(x => x.FkProfiliaiid == req.Id).First().IdDarbuotojai;
-            var regist = await _context.PaslaugosRezervacija.Where(x => x.FkDarbuotojaiidDarbuotojai == fkProfiliaiid).ToListAsync();
+            int fkProfiliaiid = _context.Klientai.Where(x => x.FkProfiliaiid == req.Id).First().IdKlientai;
+            var regist = await _context.PaslaugosRezervacija.Where(x => x.FkKlientaiidKlientai == fkProfiliaiid).ToListAsync();
             var responses = new List<ServicesRegistrationResponses>();
             foreach (var reg in regist)
             {
@@ -41,15 +41,15 @@ namespace IT_Projektas_Backend.Services.ServiRegistrationService
 
         public PaslaugosRezervacija BuildServicesAddRegRequest(ServiRegAddRequest req)
         {
-            int fkDarbuotojaiidDarbuotojai = _context.Darbuotojai.Where(x => x.FkProfiliaiid == req.FkDarbuotojaiidDarbuotojai).FirstOrDefault().IdDarbuotojai;
+            int klientoId = _context.Profiliai.SingleOrDefault(x => x.Id == req.ProfilioId).Id;
             PaslaugosRezervacija add = new PaslaugosRezervacija
             {
                 Data = req.Data,
                 LaikasNuo = req.LaikasNuo,
                 LaikasIki = req.LaikasIki,
                 FkPaslaugaid = req.FkPaslaugaid,
-                FkDarbuotojaiidDarbuotojai = fkDarbuotojaiidDarbuotojai,
-                FkKlientaiidKlientai = req.FkKlientaiidKlientai
+                FkDarbuotojaiidDarbuotojai = req.FkDarbuotojaiidDarbuotojai,
+                FkKlientaiidKlientai = klientoId
             };
 
             _context.PaslaugosRezervacija.Add(add);

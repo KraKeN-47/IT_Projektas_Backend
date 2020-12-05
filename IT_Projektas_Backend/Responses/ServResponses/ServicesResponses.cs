@@ -14,5 +14,7 @@ namespace IT_Projektas_Backend.Responses.ServResponses
         public string Aprasymas { get; set; }
         public bool? Narkoze { get; set; }
         public string Trukme { get; set; }
+        public string DarbutojoVarPav { get; set; }
+        public int FkDarbuotojaiidDarbuotojai { get; set; }
     }
 }

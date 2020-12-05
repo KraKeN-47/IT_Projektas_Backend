@@ -9,8 +9,6 @@ namespace IT_Projektas_Backend.RequestModels.ServiRegRequestModels
     public class ServiRegAddRequest
     {
         [Required]
-        public int Id { get; set; }
-        [Required]
         public string Data { get; set; }
         [Required]
         public string LaikasNuo { get; set; }
@@ -21,6 +19,6 @@ namespace IT_Projektas_Backend.RequestModels.ServiRegRequestModels
         [Required]
         public int FkDarbuotojaiidDarbuotojai { get; set; }
         [Required]
-        public int FkKlientaiidKlientai { get; set; }
+        public int ProfilioId { get; set; }
     }
 }
